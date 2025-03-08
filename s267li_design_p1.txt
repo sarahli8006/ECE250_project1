@@ -1,0 +1,21 @@
+CLASS DESIGN
+
+The classes I implemented were Time Series.
+TimeSeries::TimeSeries() is a constructor that allocates memory for and initializes both the year and data dynamic arrays as type double. They are both initialized with a capacity of 2.
+TimeSeries::~TimeSeries() is a destructor that deletes both the year and data dynamic arrays and sets them both to nullptr. This is to prevent memory leaks.
+TimeSeries::load(string filename) is a function that reads data in from a file and fills in the year and data arrays, but ignoring any invalid data. Once the arrays are full, two new dynamic arrays are created with double the capacity of the old arrays, and the old array elements are copied over. The old arrays are then deleted and pointed to the new arrays to prevent memory leaks.
+TimeSeries::print() is a function that prints all the year-data pairs to the user, unless there are no valid data points (the arrays are empty).
+TimeSeries::add(double y, double d) is a function that adds a year-data pair to the arrays if that year doesn't exist already. Invalid data can be added.
+TimeSeries::update(double y, double d) is a function that updates the data value of an existing year. If the user updates the year to have invalid data, the year-data pair is removed from the array. If the number of year-data pairs becomes less than or equal to one fourth of the array capacity, the array capacities are halved.
+TimeSeries::mean() is a function that finds the mean of all of the data values, excluding invalid data values.
+TimeSeries::is_monotonic() is a function that determines whether the time series is monotonic or not. Fails if there are no valid data points.
+TimeSeries::best_fit (double &m, double &b) is a function that finds the slope and y-intercept of the line of best fit for all the data values. Fails if there are no valid data points.
+
+
+ALTERNATIVES AND JUSTIFICATION
+
+I decided to read in invalid data, but I decided to exclude invalid data from the year and data arrays. I decided on this method because it simplifies the print, is_monotonic, and best_fit functions since they wouldn't need to deal with invalid data in the array if there is none. This also effectively decreases runtime. An alternative that I could've chosen is to keep invalid data values in the arrays. I didn't choose to do this because I would have need to include extra checks and conditions in the print, is_monotonic, and best_fit functions.
+
+RUNTIME ANALYSIS
+
+Runtime for the is_monotonic function has a best case time-complexity of O(1) if there is only one element in the array, since the for loop in the function would only need to perform one iteration to confirm that the data is valid and monotonic. Runtime for the update() function has a worst case time-complexity of O(N) if the element does not already exist in the array, since the function would need to iterate through the entire array to confirm that the element does not exist in the array.
